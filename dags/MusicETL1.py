@@ -166,7 +166,7 @@ with DAG(
 ) as dag:
 
     Extracter = PythonOperator(
-        task_id='Extract-data',
+        task_id='Extract-dataAndTransform',
         python_callable=DataExtractor,
         op_kwargs={
             'conn_string': conn
@@ -193,7 +193,7 @@ with DAG(
         postgres_conn_id='ETLid',
         sql="""
             INSERT INTO clean_data(artist, title, genres, release_date)
-            SELECT artist, title, genres, release_date FROM extractor;
+            SELECT artist, title, genres, release_date FROM extractor ON CONLIFT DO NOTHING ;
         
         """
     )
